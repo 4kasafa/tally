@@ -1,0 +1,21 @@
+{
+  "manifest_version": 3,
+  "name": "Table Scraper",
+  "version": "1.0",
+  "description": "Scrapes table data from a web page and copies it to the clipboard.",
+  "permissions": [
+    "activeTab",
+    "scripting",
+    "clipboardWrite",
+    "storage"
+  ],
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"]
+    }
+  ]
+}
