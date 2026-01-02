@@ -1,102 +1,102 @@
-# Proyek Tally
+# Tally Project
 
-Proyek ini adalah seperangkat alat yang dirancang untuk mempercepat proses penghitungan total transaksi dari tabel web. Ini terdiri dari dua komponen utama:
+This project is a set of tools designed to speed up the process of calculating transaction totals from web tables. It consists of two main components:
 
-1.  **Aplikasi Terminal (CLI) Tally**: Antarmuka baris perintah yang dibuat dengan Node.js untuk menghitung dan memproses angka dari data teks.
-2.  **Ekstensi Chrome "Table Scraper"**: Ekstensi browser sederhana untuk mengekstrak data dari tabel HTML dan menyalinnya ke papan klip.
+1.  **Tally CLI Application**: A command-line interface built with Node.js to calculate and process numbers from text data.
+2.  **"Table Scraper" Chrome Extension**: A simple browser extension to extract data from HTML tables and copy it to the clipboard.
 
-Tujuan utamanya adalah mengotomatiskan tugas menyalin data transaksi secara manual, menempelkannya di suatu tempat, dan menghitung totalnya.
+The main goal is to automate the task of manually copying transaction data, pasting it somewhere, and calculating the total.
 
-## Teknologi
+## Technologies
 
--   **Aplikasi CLI**: Node.js, Chalk, Figlet, Commander
--   **Ekstensi Chrome**: JavaScript (ES6), HTML, CSS
--   **Bahasa Utama**: JavaScript (CommonJS di backend, ES6 di frontend)
+-   **CLI Application**: Node.js, Chalk, Figlet, Commander
+-   **Chrome Extension**: JavaScript (ES6), HTML, CSS
+-   **Main Language**: JavaScript (CommonJS on the backend, ES6 on the frontend)
 
-## Fitur
+## Features
 
-### Aplikasi CLI Tally
--   UI terminal interaktif dengan menu yang mudah digunakan.
--   Secara otomatis memantau file input (`src/data/pastehere.txt`) untuk perubahan.
--   Menghitung jumlah total dari daftar transaksi.
--   Memungkinkan penambahan `non-tunai` dan `retur` untuk menyesuaikan total akhir.
--   Tampilan yang menarik dan penuh warna menggunakan `chalk` dan `figlet`.
+### Tally CLI App
+-   Interactive terminal UI with an easy-to-use menu.
+-   Automatically monitors the input file (`src/data/pastehere.txt`) for changes.
+-   Calculates the total sum from a list of transactions.
+-   Allows for adding `non-cash` and `return` amounts to adjust the final total.
+-   Attractive and colorful display using `chalk` and `figlet`.
 
-### Ekstensi Table Scraper
--   Mengikis semua baris dari tabel pada halaman web aktif.
--   Menyalin data yang telah di-scrape ke papan klip, siap untuk ditempel.
--   Kemampuan untuk menavigasi halaman tabel (sebelumnya/berikutnya).
--   Menyimpan nilai filter terakhir yang digunakan.
+### Table Scraper Extension
+-   Scrapes all rows from a table on the active web page.
+-   Copies the scraped data to the clipboard, ready to be pasted.
+-   Ability to navigate table pages (previous/next).
+-   Saves the last used filter value.
 
-## Cara Kerja
+## How It Works
 
-Alur kerja yang dimaksudkan adalah sebagai berikut:
+The intended workflow is as follows:
 
-1.  **Buka Situs Web**: Navigasikan ke halaman web yang berisi tabel transaksi yang ingin Anda hitung.
-2.  **Scrape Data**: Klik ikon ekstensi "Table Scraper" di browser Anda. Data tabel akan disalin ke papan klip Anda.
-3.  **Jalankan Aplikasi Tally**: Buka terminal Anda, navigasikan ke direktori proyek, dan jalankan `npm start`.
-4.  **Mulai Input**: Di menu Tally CLI, pilih opsi `1` (Input) untuk membuka `pastehere.txt` secara otomatis.
-5.  **Tempel Data**: Tempelkan data dari papan klip Anda ke dalam file `pastehere.txt` dan simpan.
-6.  **Hitung Total**: Kembali ke terminal. Aplikasi akan mendeteksi perubahan file. Pilih opsi `2` (Hitung) untuk melihat jumlah total dan rinciannya.
+1.  **Open a Website**: Navigate to the web page containing the transaction table you want to calculate.
+2.  **Scrape Data**: Click the "Table Scraper" extension icon in your browser. The table data will be copied to your clipboard.
+3.  **Run the Tally App**: Open your terminal, navigate to the project directory, and run `npm start`.
+4.  **Start Input**: In the Tally CLI menu, select option `1` (Input) to automatically open `pastehere.txt`.
+5.  **Paste Data**: Paste the data from your clipboard into the `pastehere.txt` file and save it.
+6.  **Calculate Total**: Return to the terminal. The application will detect the file change. Select option `2` (Calculate) to see the total sum and its details.
 
-## Pemasangan
+## Installation
 
-### Prasyarat
--   [Node.js](https://nodejs.org/) (termasuk npm)
--   Browser berbasis Chromium (seperti Google Chrome, Brave, atau Edge)
+### Prerequisites
+-   [Node.js](https://nodejs.org/) (which includes npm)
+-   A Chromium-based browser (like Google Chrome, Brave, or Edge)
 
-### Langkah-langkah
+### Steps
 
-1.  **Kloning Repositori**
+1.  **Clone the Repository**
     ```bash
-    git clone <URL_REPOSITORI_ANDA>
+    git clone <YOUR_REPOSITORY_URL>
     cd tally
     ```
 
-2.  **Instal Dependensi Node.js**
-    Jalankan perintah berikut di direktori root proyek:
+2.  **Install Node.js Dependencies**
+    Run the following command in the project's root directory:
     ```bash
     npm install
     ```
 
-3.  **Muat Ekstensi Chrome**
-    a. Buka browser Chrome Anda dan navigasikan ke `chrome://extensions`.
-    b. Aktifkan "Developer mode" (Mode Pengembang) menggunakan sakelar di pojok kanan atas.
-    c. Klik tombol "Load unpacked" (Muat yang belum dibuka).
-    d. Pilih folder `ext` dari dalam direktori proyek Anda.
-    e. Ekstensi "Table Scraper" sekarang akan muncul di daftar ekstensi Anda.
+3.  **Load the Chrome Extension**
+    a. Open your Chrome browser and navigate to `chrome://extensions`.
+    b. Enable "Developer mode" using the toggle switch in the top-right corner.
+    c. Click the "Load unpacked" button.
+    d. Select the `ext` folder from within your project directory.
+    e. The "Table Scraper" extension will now appear in your list of extensions.
 
-## Penggunaan
+## Usage
 
-1.  **Jalankan Aplikasi CLI**
-    Untuk memulai aplikasi Tally, jalankan perintah berikut di terminal:
+1.  **Run the CLI App**
+    To start the Tally application, run the following command in your terminal:
     ```bash
     npm start
     ```
-    Ini akan menampilkan menu utama di terminal Anda.
+    This will display the main menu in your terminal.
 
-2.  **Gunakan Ekstensi**
-    - Navigasikan ke halaman web dengan tabel.
-    - Klik ikon ekstensi di bilah alat browser Anda.
-    - Klik tombol "Scrape" untuk menyalin data tabel.
+2.  **Use the Extension**
+    - Navigate to a web page with a table.
+    - Click the extension icon in your browser's toolbar.
+    - Click the "Scrape" button to copy the table data.
 
-3.  **Gunakan File `pastehere.txt`**
-    Setelah data disalin, gunakan opsi `input` di CLI untuk menempelkan dan menyimpan data Anda untuk diproses.
+3.  **Use the `pastehere.txt` File**
+    After the data is copied, use the `input` option in the CLI to paste and save your data for processing.
 
-## Struktur Proyek
+## Project Structure
 
 ```
 /
-├── ext/                # Kode sumber untuk Ekstensi Chrome
-│   ├── content.js      # Skrip yang berinteraksi dengan DOM halaman web
-│   ├── manifest.json   # File konfigurasi ekstensi
-│   └── popup.js        # Logika untuk UI popup ekstensi
+├── ext/                # Source code for the Chrome Extension
+│   ├── content.js      # Script that interacts with the web page's DOM
+│   ├── manifest.json   # Extension configuration file
+│   └── popup.js        # Logic for the extension's popup UI
 │
-├── src/                # Kode sumber untuk Aplikasi CLI Tally
-│   ├── tally.cjs       # Skrip utama aplikasi CLI
+├── src/                # Source code for the Tally CLI Application
+│   ├── tally.cjs       # Main script for the CLI app
 │   └── data/
-│       └── pastehere.txt # File input untuk ditempeli data
+│       └── pastehere.txt # Input file for pasting data
 │
-├── package.json        # Dependensi dan skrip proyek Node.js
-└── README.md           # File ini
+├── package.json        # Node.js project dependencies and scripts
+└── README.md           # This file
 ```
