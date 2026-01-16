@@ -62,7 +62,7 @@ function loading(text, duration = 1000) {
 function renderBannerLines() {
     const raw = figlet.textSync("TALLY", { horizontalLayout: "full" });
     const lines = raw.split("\n");
-    const tagline = chalk.gray("Tally CLI v2.1.0 - Puppeteer Edition | Code by Kasafa");
+    const tagline = chalk.gray("Tally CLI v2.1.1 - Puppeteer Edition | Code by Kasafa");
     lines.push("");
     lines.push(tagline);
     return lines.map((l, idx) => (idx < lines.length - 1) ? (idx % 2 === 0 ? chalk.green.bold(l) : chalk.green(l)) : l);
@@ -160,8 +160,8 @@ function drawMenuBox() {
         chalk.cyan("2") + chalk.gray(".") + " Calculate Total          " + chalk.dim("-> calculate totals from data.txt"),
         chalk.cyan("3") + chalk.gray(".") + " Input Non-Cash Amount    " + chalk.dim("-> set a non-cash amount to subtract"),
         chalk.cyan("4") + chalk.gray(".") + " Check Data               " + chalk.dim("-> view current data.txt contents"),
-        chalk.cyan("5") + chalk.gray(".") + " Exit                     " + chalk.dim("-> quit program and close browser"),
-        chalk.cyan("6") + chalk.gray(".") + " Help                     " + chalk.dim("-> show this menu (clears screen)"),
+        chalk.cyan("5") + chalk.gray(".") + " Help                     " + chalk.dim("-> show this menu (clears screen)"),
+        chalk.cyan("6") + chalk.gray(".") + " Exit                     " + chalk.dim("-> quit program and close browser"),
     ];
     rows.forEach((r) => console.log(centerText(chalk.yellow("│") + pad(r) + chalk.yellow("│"))));
     console.log(centerText(chalk.yellow(bottom)));
@@ -218,9 +218,9 @@ async function startPromptLoop() {
                             if (result.pageData) {
                                 fs.appendFileSync(filePath, result.pageData);
                                 totalLines += result.linesFound;
-                                newLog = `  ${chalk.cyan('↳')} ${chalk.green(`[+] Page ${result.pageNumber}:`)} ${chalk.green(`Found and saved ${result.linesFound} transaction(s).`)}`;
+                                newLog = `  ${chalk.cyan('↳')} ${chalk.green(`[+] Page ${result.pageNumber}:`)} ${chalk.white(`Found and saved ${result.linesFound} transaction(s).`)}`;
                             } else {
-                                newLog = `  ${chalk.cyan('↳')} ${chalk.red(`[!] Page ${result.pageNumber}:`)} ${chalk.red(`No matching transactions for '${currentUser}'.`)}`;
+                                newLog = `  ${chalk.cyan('↳')} ${chalk.yellow(`[!] Page ${result.pageNumber}:`)} ${chalk.gray(`No matching transactions for '${currentUser}'.`)}`;
                             }
                             logOutput.push(newLog);
 
