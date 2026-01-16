@@ -51,7 +51,7 @@ function loading(text, duration = 1000) {
     return new Promise(resolve => {
         setTimeout(() => {
             clearInterval(interval);
-            process.stdout.write(`\r${chalk.bold.green('✔ ')} ${chalk.green(text)}\n`);
+            process.stdout.write(`\r${chalk.bold.cyan('✔ ')} ${chalk.green(text)}\n`);
             resolve();
         }, duration);
     });
@@ -62,10 +62,10 @@ function loading(text, duration = 1000) {
 function renderBannerLines() {
     const raw = figlet.textSync("TALLY", { horizontalLayout: "full" });
     const lines = raw.split("\n");
-    const tagline = chalk.gray("Tally CLI v2.0 - Puppeteer Edition | Code by KV7");
+    const tagline = chalk.gray("Tally CLI v2.1.0 - Puppeteer Edition | Code by Kasafa");
     lines.push("");
     lines.push(tagline);
-    return lines.map((l, idx) => (idx < lines.length - 1) ? (idx % 2 === 0 ? chalk.blue.bold(l) : chalk.blue(l)) : l);
+    return lines.map((l, idx) => (idx < lines.length - 1) ? (idx % 2 === 0 ? chalk.green.bold(l) : chalk.green(l)) : l);
 }
 
 async function showAnimatedBannerSync() {
@@ -159,8 +159,9 @@ function drawMenuBox() {
         chalk.cyan("1") + chalk.gray(".") + " Start Scraping           " + chalk.dim("-> scrape & save data"),
         chalk.cyan("2") + chalk.gray(".") + " Calculate Total          " + chalk.dim("-> calculate totals from data.txt"),
         chalk.cyan("3") + chalk.gray(".") + " Input Non-Cash Amount    " + chalk.dim("-> set a non-cash amount to subtract"),
-        chalk.cyan("4") + chalk.gray(".") + " Exit                     " + chalk.dim("-> quit program and close browser"),
-        chalk.cyan("5") + chalk.gray(".") + " Help                     " + chalk.dim("-> show this menu (clears screen)"),
+        chalk.cyan("4") + chalk.gray(".") + " Check Data               " + chalk.dim("-> view current data.txt contents"),
+        chalk.cyan("5") + chalk.gray(".") + " Exit                     " + chalk.dim("-> quit program and close browser"),
+        chalk.cyan("6") + chalk.gray(".") + " Help                     " + chalk.dim("-> show this menu (clears screen)"),
     ];
     rows.forEach((r) => console.log(centerText(chalk.yellow("│") + pad(r) + chalk.yellow("│"))));
     console.log(centerText(chalk.yellow(bottom)));
@@ -171,7 +172,7 @@ function drawMenuBox() {
 function buildPrompt() {
     const now = new Date();
     const time = now.toLocaleTimeString("en-GB", { hour12: false });
-    return `\n${chalk.gray("[")}${chalk.cyan(time)}${chalk.gray("]")} ${chalk.blue(`[${currentUser}]`)} ${chalk.white.bold("» ")}`;
+    return `\n${chalk.gray("[")}${chalk.cyan(time)}${chalk.gray("]")} ${chalk.yellow(`[${currentUser}]`)} ${chalk.white.bold("» ")}`;
 }
 
 const rl = readline.createInterface({ input: process.stdin, output: process.stdout, prompt: "" });
@@ -180,8 +181,8 @@ async function showMainMenu() {
     clearScreen();
     await showAnimatedBannerSync();
     console.log("");
-    console.log(centerText(chalk.greenBright(`User: ${currentUser} │ Total Pages: ${totalScrapablePages || 'N/A'}`)));
-    console.log(centerText(chalk.blue(`Current URL: ${page.url()}`)));
+    console.log(centerText(chalk.yellowBright(`User: ${currentUser} │ Total Pages: ${totalScrapablePages || 'N/A'}`)));
+    console.log(centerText(chalk.green(`Current URL: ${page.url()}`)));
     drawMenuBox();
     redisplayPrompt();
 }
@@ -205,8 +206,7 @@ async function startPromptLoop() {
                 const filePath = path.join(__dirname, fileName);
 
                 const startScraping = async () => {
-                    console.log(chalk.blue(`\n[*] Starting scraper... Data will be saved to ${chalk.cyan(fileName)}.`));
-                    openFileInEditor(filePath);
+                    console.log(chalk.green(`\n[*] Starting scraper... Data will be saved to ${chalk.cyan(fileName)}.`));
                     fs.writeFileSync(filePath, '');
                     let totalLines = 0;
                     const logOutput = [];
@@ -218,9 +218,9 @@ async function startPromptLoop() {
                             if (result.pageData) {
                                 fs.appendFileSync(filePath, result.pageData);
                                 totalLines += result.linesFound;
-                                newLog = `  ${chalk.cyan('↳')} ${chalk.green(`[+] Page ${result.pageNumber}:`)} ${chalk.white(`Found and saved ${result.linesFound} transaction(s).`)}`;
+                                newLog = `  ${chalk.cyan('↳')} ${chalk.green(`[+] Page ${result.pageNumber}:`)} ${chalk.green(`Found and saved ${result.linesFound} transaction(s).`)}`;
                             } else {
-                                newLog = `  ${chalk.cyan('↳')} ${chalk.yellow(`[!] Page ${result.pageNumber}:`)} ${chalk.gray(`No matching transactions for '${currentUser}'.`)}`;
+                                newLog = `  ${chalk.cyan('↳')} ${chalk.red(`[!] Page ${result.pageNumber}:`)} ${chalk.red(`No matching transactions for '${currentUser}'.`)}`;
                             }
                             logOutput.push(newLog);
 
@@ -281,7 +281,7 @@ async function startPromptLoop() {
                 console.log(chalk.greenBright("\n--- Calculation Results ---"));
                 console.log(chalk.green("Total Transactions Found:"), chalk.white(transactions.length));
                 console.log(chalk.green("Total Transaction Amount: Rp"), chalk.white(total.toLocaleString("id-ID")));
-                console.log(chalk.yellow("Non-Cash Amount: Rp"), chalk.white(nonCash.toLocaleString("id-ID")));
+                console.log(chalk.green("Non-Cash Amount: Rp"), chalk.white(nonCash.toLocaleString("id-ID")));
                 console.log(chalk.gray("---------------------------"));
                 console.log(chalk.green.bold("Final Total (Cash): Rp"), chalk.white.bold(finalTotal.toLocaleString("id-ID")));
                 redisplayPrompt();
@@ -300,10 +300,28 @@ async function startPromptLoop() {
                     redisplayPrompt();
                 });
                 return;
-
-
-
+            
             case "4":
+            case "check":
+            case "data":
+                const dataFilePath = path.join(__dirname, FILE_PATH);
+                if (fs.existsSync(dataFilePath)) {
+                    console.log(chalk.green(`\nOpening data file: ${FILE_PATH}`));
+                    openFileInEditor(dataFilePath);
+                } else {
+                    console.log(chalk.red(`\n[ERROR] Data file '${FILE_PATH}' does not exist.`));
+                }
+                redisplayPrompt();
+                return;
+
+            case "help":
+            case "h":
+            case "?":
+            case "5":
+                await showMainMenu();
+                return;
+            
+            case "6":
             case "exit":
             case "quit":
                 rl.question(chalk.red("\nAre you sure you want to quit? (y/n): "), async (ans) => {
@@ -316,12 +334,6 @@ async function startPromptLoop() {
                         redisplayPrompt();
                     }
                 });
-                return;
-
-            case "help":
-            case "h":
-            case "?":
-                await showMainMenu();
                 return;
 
             default:
